@@ -1,0 +1,47 @@
+<div class="container assets-list-page">
+  <h1>רשימת בקשות
+    <button class="btn btn-danger glyphicon glyphicon-log-out" (click)="logout()"></button>
+  </h1>
+  <div>
+    <button class='btn btn-success' [routerLink]="['/assets-create', '-1']">הוספת פניה</button>
+    <button class='btn btn-success' [routerLink]="['/users']" style="float: left;">רשימת לקוחות</button>
+  </div>
+  <div class="table-app">
+    <table class="table">
+      <thead>
+      <tr>
+        <th style="width: 14%;"> {{ xlsxComperEnum.RequestDate}}</th>
+        <th style="width: 9%;"> {{ xlsxComperEnum.typeUser}} </th>
+        <th style="width: 12%;"> {{ xlsxComperEnum.city}} </th>
+        <th style="width: 10%;"> {{ xlsxComperEnum.zone}} </th>
+        <th style="width: 14%;"> {{ xlsxComperEnum.assetType}} </th>
+        <th style="width: 10%;"> {{ xlsxComperEnum.budget}} </th>
+        <th style="width: 8%;"> {{ xlsxComperEnum.numRooms}} </th>
+        <!--<th style="width: 8%;"> בקשה שהתקבלה </th>-->
+        <th style="width: 8%;"> {{ xlsxComperEnum.isNewAsset}} </th>
+        <th style="width: 15%;"> פעולות </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let asse of Assets">
+        <td style="width: 14%;">{{ asse.RequestDate }}</td>
+        <td style="width: 9%;">{{ typeUserEnum[asse.typeUser] }}</td>
+        <td style="width: 12%;">{{ asse.city }}</td>
+        <td style="width: 10%;">{{ asse.zone }}</td>
+        <td style="width: 14%;">{{ asse.assetType }}</td>
+        <td style="width: 10%;">{{ asse.budget }}</td>
+        <td style="width: 8%;">{{ asse.numRooms }}</td>
+        <!--<td style="width: 8%;">{{ asse.msg }}</td>-->
+        <td style="width: 8%;">{{ asse.isNewAsset ? isNewAssetEnum.First : isNewAssetEnum.second }}</td>
+        <td style="width: 15%;">
+          <button class='btn btn-info glyphicon glyphicon glyphicon-briefcase' *ngIf="asse.owner_id" [routerLink]="['/user-assets', asse.owner_id, 'assetslist']"></button>
+          <button class='btn btn-info glyphicon glyphicon-plus' *ngIf="!asse.owner_id" [routerLink]="['/user-create']"></button>
+
+          <button class='btn btn-success glyphicon glyphicon-edit' [routerLink]="['/assets-edit', asse._id, 'assetslist' ]"></button>
+          <button class='btn btn-danger glyphicon glyphicon-trash' (click)="removeItem(asse._id)"></button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="container user-list-page">
+  <h1>רשימת לקוחות
+    <button class="btn btn-danger glyphicon glyphicon-log-out" (click)="logout()"></button>
+  </h1>
+  <div>
+    <button class='btn btn-success' [routerLink]="['/user-create']">הוספת לקוח</button>
+    <button class='btn btn-success' [routerLink]="['/assets-list']" style="float: left;">רשימת פניות</button>
+  </div>
+  <div class="table-app">
+    <table class="table">
+      <thead>
+      <tr>
+        <th style="width: 16%;"> תאריך רישום </th>
+        <th style="width: 20%;"> {{ xlsxComperEnum.name}} </th>
+        <th style="width: 16%;"> {{ xlsxComperEnum.phone}} </th>
+        <th style="width: 20%;"> {{ xlsxComperEnum.email}} </th>
+        <th style="width: 14%;"> תיק לקוח </th>
+        <th style="width: 14%;"> פעולות </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td style="width: 16%;">{{ user.crate | date: 'dd/MM/yyyy' }}</td>
+        <td style="width: 20%;">{{ user.name }}</td>
+        <td style="width: 16%;">{{ user.phone }}</td>
+        <td style="width: 20%;">{{ user.email }}</td>
+        <td style="width: 14%;">
+          <button class='btn btn-info glyphicon glyphicon-briefcase' [routerLink]="['/user-assets', user._id.toString(), 'userlist']"></button>
+          <!--<button class='btn btn-info glyphicon glyphicon-eye-open' [routerLink]="['/user-infro', user.InfroUser_id.toString()]"></button>-->
+        </td>
+        <td style="width: 14%;">
+          <button class='btn btn-success glyphicon glyphicon-edit' [routerLink]="['/user-edit', user._id.toString()]"></button>
+          <button class='btn btn-danger glyphicon glyphicon-trash' (click)="removeItem(user._id)"></button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!--<h1>רשימת לקוחות
+    <button class='btn btn-success glyphicon glyphicon-plus' [routerLink]="['/user-create']"></button>
+    <button class='btn btn-success' [routerLink]="['/assets-list']">רשימת פניות</button>
+    <button class="btn btn-danger glyphicon glyphicon-log-out" (click)="logout()"></button>
+  </h1>-->
+
+</div>

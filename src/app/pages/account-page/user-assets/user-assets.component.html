@@ -1,0 +1,207 @@
+<div>
+  <app-loading-animation [isDisplay]="isAnalysis" [isFixedPos]="true"></app-loading-animation>
+</div>
+<div class="container account-page">
+  <h1>תיק לקוח
+    <button *ngIf="retPage == 'userlist'" class="btn btn-success" [routerLink]="['/users']">חזרה</button>
+    <button *ngIf="retPage == 'assetslist'" class="btn btn-success" [routerLink]="['/assets-list']">חזרה</button>
+  </h1>
+
+  <div>
+    <p-card title="" [style]="{width: '100%', backgroundColor: 'rgba(12, 12, 12, 0.5)', color: '#fff', height: '120px' }">
+      <p-header>
+        <button class='btn btn-success' (click)="informationAnalysis()" style="float:left; margin: 1em;">ניתוח מידע</button>
+        <button class='btn ' (click)="saveChange()" [ngClass]="{'btn-success': user['isRegistered'], 'btn-danger': !user['isRegistered']}" style="float:left; margin: 1em 0;">לקוח רשום</button>
+        <div class="ui-card-title" style="padding: 1em;">פרטי לקוח
+        </div>
+      </p-header>
+      <ul class="list-group" style="margin-top: -60px;">
+
+        <li class="list-group-item col-md-3"> תאריך רישום : {{  user['crate'] | date : 'dd-MM-yyyy'}} </li>
+        <li class="list-group-item col-md-3"> {{ xlsxComperEnum.phone + ' : ' + user['phone']}} </li>
+        <li class="list-group-item col-md-3"> {{ xlsxComperEnum.email + ' : ' + user['email']}} </li>
+        <li class="list-group-item col-md-3"> {{ xlsxComperEnum.name + ' : ' + user['name'] }} </li>
+      </ul>
+    </p-card>
+  </div>
+  <!--<div>
+    <p-card [style]="{width: '100%',  height: '120px', backgroundColor: 'rgba(12, 12, 12, 0.5)', color: '#fff' }">
+      <p-header>
+        <button class='btn btn-success' [disabled]="user.isRegistered" (click)="sendMailTOUser(user._id)" style="float:left; margin: 1em;">שליחת הודעה</button>
+
+        <button class='btn ' (click)="saveChange()" [ngClass]="{'btn-success': user.isRegistered, 'btn-danger': !user.isRegistered}" style="float:left; margin: 1em;">לקוח רשום</button>
+        <div class="ui-card-title" style="padding: 1em;">הודעת רישום
+        </div>
+      </p-header>
+      <ul class="list-group " style="margin-top: -60px;">
+        <li class="list-group-item col-md-6"> {{ xlsxComperEnum.numSentMail + ' : ' + user.numSentMailRegistration }} </li>
+        <li class="list-group-item col-md-6"> {{ xlsxComperEnum.lastSentMail + ' : ' + GetTimeFormat()}} </li>
+      </ul>
+    </p-card>
+  </div>-->
+  <div class="table-app">
+    <p-card [style]="{width: '100%', height: '100%', backgroundColor: 'rgba(12, 12, 12, 0.5)', color: '#fff', overflow: 'hidden' }">
+      <p-header>
+        <button class='btn btn-success' [routerLink]="['/assets-create', user['_id']]" style="float:left; margin: 1em;">הוספת בקשה</button>
+        <div class="ui-card-title" style="padding: 1em;">בקשות לקוח
+        </div>
+      </p-header>
+      <div style="overflow: auto; height: 173px; margin-top: -40px; border: 1px solid #D5D5D5;">
+        <table class="table">
+          <thead>
+          <tr>
+            <th> {{ xlsxComperEnum.RequestDate}}</th>
+            <th> {{ xlsxComperEnum.typeUser}} </th>
+            <th> {{ xlsxComperEnum.city}} </th>
+            <th> {{ xlsxComperEnum.zone}} </th>
+            <th> {{ xlsxComperEnum.assetType}} </th>
+            <th> {{ xlsxComperEnum.budget}} </th>
+            <th> {{ xlsxComperEnum.numRooms}} </th>
+            <th> {{ xlsxComperEnum.isNewAsset}} </th>
+            <th> בקשה שהתקבלה </th>
+            <th> פעולות </th>
+          </tr>
+          </thead>
+          <tbody *ngIf="user['Assets_id_list'] && user['Assets_id_list'].length > 0">
+          <tr *ngFor="let assets of user['Assets_id_list']">
+            <td>{{ assets.RequestDate }}</td>
+            <td>{{ typeUserEnum[assets.typeUser] }}</td>
+
+            <td>{{ assets.city }}</td>
+            <td>{{ assets.zone }}</td>
+            <td>{{ assets.assetType }}</td>
+            <td>{{ assets.budget }}</td>
+            <td>{{ assets.numRooms }}</td>
+            <td>{{ assets.isNewAsset ? isNewAssetEnum.First : isNewAssetEnum.second}}</td>
+            <td style="max-width: 200px;">{{ assets.msg }}</td>
+            <td>
+              <button class='btn btn-success glyphicon glyphicon-edit' [routerLink]="['/assets-edit', assets._id.toString(), 'userassets']"></button> <!---->
+              <button class='btn btn-danger glyphicon glyphicon-trash' (click)="removeItem(assets._id)"></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </p-card>
+  </div>
+
+  <div>
+    <p-card title="מידע מורחב" [style]="{width: '100%',  backgroundColor: 'rgba(12, 12, 12, 0.5)', color: '#fff' }">
+      <ngb-tabset #t="ngbTabset">
+        <ngb-tab id="tab-selectbyid1" title="אישי">
+          <ng-template ngbTabContent>
+            <p-card [style]="{width: '100%',  height: '120px', backgroundColor: 'inherit', color: '#fff', borderColor: '#f39c12', borderTop: 'none' }">
+              <ul class="list-group" *ngIf="user['InfroUser_id']">
+                <li class="list-group-item col-md-3"> {{ xlsxComperEnum.isMarried + ' : ' + user['InfroUser_id'].isMarried }} </li>
+                <li class="list-group-item col-md-3"> {{ xlsxComperEnum.spousesName + ' : ' + user['InfroUser_id'].spousesName }} </li>
+                <li class="list-group-item col-md-3"> {{ xlsxComperEnum.dateOfBirth + ' : ' +  GetTimeFormat(user['InfroUser_id'].dateOfBirth, 'dd-MM-yyyy') }} </li>
+                <li class="list-group-item col-md-3"> {{ xlsxComperEnum.numChildren + ' : ' + user['InfroUser_id'].numChildren }} </li>
+              </ul>
+            </p-card>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab-selectbyid2" title="פיננסי">
+          <ng-template ngbTabContent>
+            <p-card [style]="{width: '100%',  height: '120px', backgroundColor: 'inherit', color: '#fff', borderColor: '#f39c12', borderTop: 'none' }">
+              <ul class="list-group" *ngIf="user['InfroUser_id']">
+                <li class="list-group-item col-md-4"> {{ xlsxComperEnum.revenue + ' : ' + user['InfroUser_id'].revenue }} </li>
+                <li class="list-group-item col-md-4"> {{ xlsxComperEnum.numProperties + ' : ' + (user['Assets_id_list'] && user['Assets_id_list'].length) ? user['Assets_id_list'].length : 0  }} </li>
+                <li class="list-group-item col-md-4"> {{ xlsxComperEnum.investmentsAbroad + ' : ' + user['InfroUser_id'].investmentsAbroad }} </li>
+              </ul>
+            </p-card>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab-selectbyid3" title="שימושי">
+          <ng-template ngbTabContent>
+            <p-card [style]="{width: '100%',  height: '120px', backgroundColor: 'inherit', color: '#fff', borderColor: '#f39c12', borderTop: 'none' }">
+              <p-header>
+                <button class='btn btn-success' [disabled]="user['isRegistered']" (click)="sendMailTOUser(user['_id'])" style="float:left; margin: 1em;">שליחת הודעה</button>
+
+                <button class='btn ' (click)="saveChange()" [ngClass]="{'btn-success': user.isRegistered, 'btn-danger': !user.isRegistered}" style="float:left; margin: 1em 0;">לקוח רשום</button>
+                <div class="ui-card-title" style="padding: 1em;">הודעות רישום
+                </div>
+              </p-header>
+              <ul class="list-group " style="margin-top: -60px;">
+                <li class="list-group-item col-md-6"> {{ xlsxComperEnum.numSentMail + ' : ' + user['numSentMailRegistration']}} </li>
+                <li class="list-group-item col-md-6"> {{ xlsxComperEnum.lastSentMail + ' : ' + (user['lastSentMailRegistration'] ? GetTimeFormat(user['lastSentMailRegistration'], 'HH:mm dd-MM-yyyy') : 'לא נשלח')}} </li>
+              </ul>
+            </p-card>
+          </ng-template>
+        </ngb-tab>
+
+        <ngb-tab id="tab-selectbyid4" title="שיווקי">
+          <ng-template ngbTabContent>
+            <p-card title=" הודעות שיווקיות" [style]="{width: '100%', height: '250px', backgroundColor: 'inherit', color: '#fff', overflow: 'hidden' }">
+              <div style="overflow: auto; height: 173px; border: 1px solid #D5D5D5;">
+                <table class="table">
+                  <thead>
+                  <tr style="text-align: center;">
+                    <th style="background-color: #f39c12; border-color: #e67e22; text-align: center;"> תאריך שליחת הודעה </th>
+                    <th style="background-color: #f39c12; border-color: #e67e22; text-align: center;"> סוג מקצוע </th>
+                    <th style="background-color: #f39c12; border-color: #e67e22; text-align: center;"> כניסה ללינק </th>
+                    <th style="background-color: #f39c12; border-color: #e67e22; text-align: center;"> בקשה לפרסום נוסף בתחום </th>
+                  </tr>
+                  </thead>
+                  <tbody *ngIf="user['marketing_msg_list'] && user['marketing_msg_list'].length > 0">
+                  <tr *ngFor="let msg of user['marketing_msg_list']" style="text-align: center;">
+                    <td>{{ GetTimeFormat(msg.crate, 'HH:mm  dd-MM-yyyy')}}</td>
+                    <td>{{ msg.typeMsg.serviceType }}</td>
+                    <td>{{ msg.isOpenLink ? strYes : strNo }}</td>
+                    <td>{{ msg.isSendMore ? strYes : strNo }}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </p-card>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </p-card>
+  </div>
+
+
+  <div class="table-app">
+    <p-card title="התאמות שיווקיות" [style]="{width: '100%', height: '250px', backgroundColor: 'rgba(12, 12, 12, 0.5)', color: '#fff', overflow: 'hidden' }">
+      <div style="overflow: auto; height: 173px; border: 1px solid #D5D5D5;">
+        <table class="table">
+          <thead>
+          <tr>
+            <th> {{ xlsxComperEnum.requestAnalysis}}</th>
+            <th> {{ xlsxComperEnum.keyword}} </th>
+            <th> {{ xlsxComperEnum.serviceProvider}} </th>
+            <th> {{ xlsxComperEnum.matchPerce}} </th>
+            <th> פעולות </th>
+          </tr>
+          </thead>
+          <tbody *ngIf="user['rules_id_list'] && user['rules_id_list'].length > 0">
+          <tr *ngFor="let rule of user['rules_id_list']">
+            <td>{{ GetTimeFormat(user['timeAnalysis'], 'HH:mm  dd-MM-yyyy')}}</td>
+            <td>{{ rule.keyword_id.word }}</td>
+            <td>{{ rule.serviceProvider_id.serviceType }}</td>
+            <td>{{ (rule.matchPerce/100) | percent: '2.0'}}</td>
+
+            <td>
+              <button class='btn btn-success' (click)="sendMarketingMailTOUser(user['_id'], rule._id)">שליחת הודעת שיווק</button>
+            </td>
+
+
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </p-card>
+  </div>
+
+
+
+
+
+
+  <!--<div>
+
+
+    <button class='btn btn-info glyphicon glyphicon-eye-open' [routerLink]="['/user-infro', user.InfroUser_id]"></button>
+
+  </div>-->
+</div>

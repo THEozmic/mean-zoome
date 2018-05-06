@@ -1,0 +1,27 @@
+body{
+  background: url(images/backgrZume.jpg);
+  color: #ffffff;
+}
+
+.account-page .nav-tabs{
+  border-bottom-color: #f39c12;
+  -webkit-padding-start: 10px;
+}
+.account-page .nav-tabs>li {
+  float: right;
+}
+.account-page .nav-tabs>li>a{
+  background-color: inherit;
+  //border-color: #f39c12 #f39c12 transparent #f39c12;
+  color: #ffffff;
+}
+.account-page .nav-tabs>li>a:active {
+  background-color: #333 ;
+}
+.account-page .nav-link.active{
+  background-color: #f39c12 !important;
+}
+.account-page .nav>li>a:hover {
+  text-decoration: none;
+  background-color: #f39c12;
+}

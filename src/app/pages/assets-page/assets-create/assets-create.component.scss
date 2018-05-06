@@ -1,0 +1,23 @@
+.assets-create-page{
+  max-width: 830px;
+  min-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+
+
+  h1{
+    margin: 25px -15px;
+
+    button{
+      float: left;
+    }
+  }
+
+  .input-page{
+    height: calc(100vh - 150px);
+    max-height: 750px;
+    .col-md-6{
+      height: 100%;
+    }
+  }
+}

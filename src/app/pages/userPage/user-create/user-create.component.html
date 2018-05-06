@@ -1,0 +1,92 @@
+<div>
+  <app-loading-animation [isDisplay]="loadingApp" [isFixedPos]="true"></app-loading-animation>
+</div>
+<div class="container form-class user-create-page">
+
+  <!--<input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file" accept=".xlsx">
+  <button type="button" class="btn btn-info" (click)="Upload()" >Upload</button>
+-->
+  <h1>יצירת לקוח חדש
+    <button class="btn btn-success" [routerLink]="['/users']">חזרה</button>
+  </h1>
+  <div class="row input-page">
+
+    <div class="col-md-12">
+
+
+      <p-card title="" [style]="{width: '100%', height: '100%', backgroundColor: 'rgba(12, 12, 12, 0.5)', color: '#fff', minHeight: '540px' }">
+        <form (ngSubmit)="saveUser()" #userForm="ngForm">
+          <div style="height: 467px;">
+            <div class="col-md-6" style="padding: 8px;">
+              <div class="form-group">
+                <label for="requestDate">{{ xlsxComperEnum.RequestDate }}</label>
+                <input type="text" class="form-control" [(ngModel)]="user['RequestDate']" name="RequestDate" id="requestDate">
+              </div>
+              <div class="form-group">
+                <label for="typeUser">{{ xlsxComperEnum.typeUser }}</label>
+                <input type="text" class="form-control" [(ngModel)]="user['typeUser']" name="TypeUser" id="typeUser" >
+              </div>
+              <div class="form-group">
+                <label for="name">{{ xlsxComperEnum.name }}</label>
+                <input type="text" class="form-control" [(ngModel)]="user['name']" name="Name" id="name" required>
+              </div>
+              <div class="form-group">
+                <label for="phone">{{ xlsxComperEnum.phone }}</label>
+                <input type="text" class="form-control" [(ngModel)]="user['phone']" name="Phone" id="phone">
+              </div>
+              <div class="form-group">
+                <label for="email">{{ xlsxComperEnum.email }}</label>
+                <input type="text" class="form-control" [(ngModel)]="user['email']" name="Email" id="email" required>
+              </div>
+              <div class="form-group">
+                <label for="city">{{ xlsxComperEnum.city }}</label>
+                <input type="text" class="form-control" [(ngModel)]="user['city']" name="City" id="city">
+              </div>
+            </div>
+            <div class="col-md-6" style="padding: 8px;">
+              <div class="form-group">
+                <label for="zone">{{ xlsxComperEnum.zone }}</label>
+                <input type="text" class="form-control" [(ngModel)]="user['zone']" name="Zone" id="zone">
+              </div>
+              <div class="form-group">
+                <label for="assetType">{{ xlsxComperEnum.assetType }}</label>
+                <input type="text" class="form-control" [(ngModel)]="user['assetType']" name="AssetType" id="assetType">
+              </div>
+              <div class="form-group">
+                <label for="budget">{{ xlsxComperEnum.budget }}</label>
+                <input type="text" class="form-control" [(ngModel)]="user['budget']" name="Budget" id="budget">
+              </div>
+              <div class="form-group">
+                <label for="numRooms">{{ xlsxComperEnum.numRooms }}</label>
+                <input type="text" class="form-control" [(ngModel)]="user['numRooms']" name="NumRooms" id="numRooms">
+              </div>
+              <div class="form-group">
+                <label for="isNewAsset">{{ xlsxComperEnum.isNewAsset }}</label>
+                <input type="text" class="form-control" [(ngModel)]="user['isNewAsset']" name="IsNewAsset" id="isNewAsset">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-success" [disabled]="!userForm.form.valid"  style="float: left;">שמור</button>
+          </div>
+        </form>
+      </p-card>
+
+    </div>
+  </div>
+</div>
+
+
+<!--
+ <th>RequestDate</th>
+      <th>typeUser</th>
+      <th>name</th>
+      <th>phone</th>
+      <th>email</th>
+      <th>city</th>
+      <th>zone</th>
+      <th>assetType</th>
+      <th>budget</th>
+      <th>numRooms</th>
+      <th>isNewAsset</th>
+-->
