@@ -30,7 +30,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':'false'}));
 app.use(express.static(path.join(__dirname, 'dist')));
-
 app.use('/welcomeMLZ', express.static(path.join(__dirname, 'dist')));
 app.use('/assets-list', express.static(path.join(__dirname, 'dist')));
 app.use('/assets-create/:id', express.static(path.join(__dirname, 'dist')));

@@ -1,8 +1,7 @@
 body{
-  background: url(images/backgrZume.jpg);
+  background: url("images/backgrZume.jpg");
   color: #ffffff;
 }
-
 .account-page .nav-tabs{
   border-bottom-color: #f39c12;
   -webkit-padding-start: 10px;
