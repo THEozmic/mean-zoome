@@ -171,6 +171,7 @@ export class AssetsCreateComponent implements OnInit {
     let httpOptions = {
       headers: new HttpHeaders({ 'Authorization': localStorage.getItem('jwtToken')  })
     };
+    console.log('data:::', data);
     this.http.post('/user', data, httpOptions)
       .subscribe(res => {
          this.clearDataSP();

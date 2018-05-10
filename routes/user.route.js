@@ -36,28 +36,31 @@ function randomByNumber(endNum) {
 
   return 0;
 }
-router.post('/', passport.authenticate('jwt', { session: false}), function(req, res) {
+router.post('/', passport.authenticate('jwt', { session: false }), function(req, res) {
   var token = getToken(req.headers);
+
+  var data = req.body.data;
+
   if (token) {
     var user = {
-      name: req.body.name,
-      phone: req.body.phone,
-      email: req.body.email,
+      name: data.name,
+      phone: data.phone,
+      email: data.email,
       Assets_id_list: []
     };
 
-    if (req.body.isAddAsset){
+    if (data.isAddAsset){
 
       var assest = {
-        RequestDate: req.body.RequestDate,
-        msg: req.body.msg,
-        typeUser: req.body.typeUser,
-        city: req.body.city,
-        zone: req.body.zone,
-        assetType: req.body.assetType,
-        budget: req.body.budget,
-        numRooms: req.body.numRooms,
-        isNewAsset: req.body.isNewAsset
+        RequestDate: data.RequestDate,
+        msg: data.msg,
+        typeUser: data.typeUser,
+        city: data.city,
+        zone: data.zone,
+        assetType: data.assetType,
+        budget: data.budget,
+        numRooms: data.numRooms,
+        isNewAsset: data.isNewAsset
       };
 
       AssetsController.addAssest(assest, function(err, assestSaveing){
@@ -67,26 +70,26 @@ router.post('/', passport.authenticate('jwt', { session: false}), function(req, 
 
         user.Assets_id_list.push(assestSaveing._id);
         user.isMarried = isMarriedenums[randomByNumber(isMarriedenums.length)];
-        if (req.body.isMarried){
-          user.isMarried = req.body.isMarried;
+        if (data.isMarried){
+          user.isMarried = data.isMarried;
         }
-        if (req.body.spousesName){
-          user.spousesName = req.body.spousesName;
+        if (data.spousesName){
+          user.spousesName = data.spousesName;
         }
         user.numChildren = randomByNumber(5);
-        if (req.body.numChildren){
-          user.numChildren = req.body.numChildren;
+        if (data.numChildren){
+          user.numChildren = data.numChildren;
         }
-        if (req.body.dateOfBirth){
-          user.dateOfBirth = req.body.dateOfBirth;
+        if (data.dateOfBirth){
+          user.dateOfBirth = data.dateOfBirth;
         }
         user.revenue = randomByNumber(25000).toString();
-        if (req.body.revenue){
-          user.revenue = req.body.revenue;
+        if (data.revenue){
+          user.revenue = data.revenue;
         }
         user.investmentsAbroad = (randomByNumber(1) == 0) ? 'YES' : '';
-        if (req.body.investmentsAbroad){
-          user.investmentsAbroad = req.body.investmentsAbroad;
+        if (data.investmentsAbroad){
+          user.investmentsAbroad = data.investmentsAbroad;
         }
         UserController.addNewUser(user, function(err, userSaveing){
           if (err) {

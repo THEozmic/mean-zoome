@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {XlsxComperEnum} from "../../../enums/xlsx-comper.enum";
 import {XlsxComperService} from "../../../services/xlsx-comper.service";
 import {User} from "../../../classes/user";
+import { typeSourceSpan } from '@angular/compiler';
 
 
 
@@ -15,7 +16,8 @@ import {User} from "../../../classes/user";
 export class UserCreateComponent implements OnInit {
   public loadingApp:boolean = false;
 
-  user = [];
+  public user = [];
+
   fileToUpload: File = null;
   public xlsxComperEnum = XlsxComperEnum;
 
@@ -24,6 +26,11 @@ export class UserCreateComponent implements OnInit {
   ngOnInit() {
   }
 
+
+  getUser() {
+    var user = {...this.user}
+    return user;
+  }
 
 
   file:File;
@@ -48,12 +55,16 @@ export class UserCreateComponent implements OnInit {
   saveUser() {
     this.loadingApp =true;
     let httpOptions = {
-      headers: new HttpHeaders({ 'Authorization': localStorage.getItem('jwtToken')  })
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('jwtToken'),
+        'Content-Type': 'application/json; charset=utf-8'
+      })
     };
     this.user['isAddAsset'] = true;
-    this.http.post('/user', this.user, httpOptions)
+
+    this.http.post('/user', { data: this.getUser() }, httpOptions)
       .subscribe(res => {
-          //let id = res['_id'];
+          let id = res['_id'];
         setTimeout(() => {
           this.loadingApp =false;
           this.router.navigate(['/users']);
@@ -61,7 +72,7 @@ export class UserCreateComponent implements OnInit {
 
         }, (err) => {
           alert(err);
-        this.loadingApp =false;
+          this.loadingApp =false;
         }
       );
   }
